@@ -71,11 +71,15 @@ async def welcome(message: types.Message):
     await bot.send_message(message.chat.id, "*Активисты группы «Багратион Z» совместно с Министерством обороны Российской Федерации приветствуем Вас!* \n Этот ресурс создан для помощи нашим военным, которые принимают участие в проведении специальной военной операции на Украине. \n Наши военные нуждаются в следующей информации: \n 1.Место и время обнаружения сил противника; \n 2.Количественный состав техники противника и её тип; \n 3.Количество личного состава боевиков ВСУ; \n 4.Информация о националистически настроенных лицах. \n Военные аналитики группы «Багратион Z» получают эти сведения от Вас и немедленно передают в Штаб Специальной военной операции. \n Поможем нашим братьям, освободим от националистической власти, изменим мир к лучшему!  ",reply_markup=keyboard1, parse_mode= "Markdown")
     await bot.send_message(message.chat.id, 'Для начала пользования ботом нажмите: «Своих не бросаем!', reply_markup=keyboard1)
 
-@dp.message_handler()
+
+
+@dp.message_handler(lambda message: message.text == "«Своих не бросаем!")
 async def kb_answer(message: types.Message):
-    if message.text == '«Своих не бросаем!':
+    try:
         await message.answer('В какой области был замечен противник?):',reply_markup=keyboard11)
         await Test.Q1.set()
+    except Exception as e:
+        print(e)
 
 @dp.message_handler(state=Test.Q1)
 async def answer_for_question(message: types.Message, state: FSMContext):
@@ -113,22 +117,15 @@ async def test(message: types.Message, state: FSMContext):
     answer2 = data.get("Q2")
     answer3 = data.get("Q3")
     answer4 = message.contact.phone_number
-
+    await state.finish()
     full_q = 'Питання 1: {0}\bПитання 2: {1}\nПитання 3: {2}\nНомер телефону: {3}'.format(
 
         answer1, answer2, answer3, answer4)
     await bot.send_message('-653478073', full_q)
     await bot.send_message(message.chat.id, "*Активисты группы «Багратион Z» совместно с Министерством обороны Российской Федерации приветствуем Вас!* \n Этот ресурс создан для помощи нашим военным, которые принимают участие в проведении специальной военной операции на Украине. \n Наши военные нуждаются в следующей информации: \n 1.Место и время обнаружения сил противника; \n 2.Количественный состав техники противника и её тип; \n 3.Количество личного состава боевиков ВСУ; \n 4.Информация о националистически настроенных лицах. \n Военные аналитики группы «Багратион Z» получают эти сведения от Вас и немедленно передают в Штаб Специальной военной операции. \n Поможем нашим братьям, освободим от националистической власти, изменим мир к лучшему!  ", reply_markup=keyboard1, parse_mode="Markdown")
-    await bot.send_message(message.chat.id, 'Для начала пользования ботом нажмите: «Своих не бросаем!',reply_markup=keyboard1)  
+    await bot.send_message(message.chat.id, 'Для начала пользования ботом нажмите: «Своих не бросаем!',reply_markup=keyboard1)
 
 
 
 if __name__ == "__main__":
-
-    try:
-
-        executor.start_polling(dp, skip_updates=True)
-
-    except Exception as e:
-
-        print(e)
+    executor.start_polling(dp, skip_updates=True)
