@@ -22,30 +22,30 @@ class Test(StatesGroup):
 
 
 
-button1 = KeyboardButton('вперед')
+button1 = KeyboardButton('«Своих не бросаем!')
 keyboard1 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).row(button1)
-button11 = KeyboardButton('заглушка')
-button12 = KeyboardButton('заглушка')
-button13 = KeyboardButton('заглушка')
-button14 = KeyboardButton('заглушка')
-button15 = KeyboardButton('заглушка')
-button16 = KeyboardButton('заглушка')
-button17 = KeyboardButton('заглушка')
-button18 = KeyboardButton('заглушка')
-button19 = KeyboardButton('заглушка')
-button20 = KeyboardButton('заглушка')
-button21 = KeyboardButton('заглушка')
-button22 = KeyboardButton('заглушка')
-button23 = KeyboardButton(' заглушка')
-button24 = KeyboardButton('заглушка')
-button25 = KeyboardButton('заглушка')
-button26 = KeyboardButton('заглушка')
-button27 = KeyboardButton('заглушка')
-button28 = KeyboardButton('заглушка')
-button29 = KeyboardButton('заглушка')
-button30 = KeyboardButton('заглушка')
-button31 = KeyboardButton('заглушка')
-button32 = KeyboardButton('заглушка')
+button11 = KeyboardButton('Киевская Область')
+button12 = KeyboardButton('Харьковская Область')
+button13 = KeyboardButton('Херсонская Область')
+button14 = KeyboardButton('Сумская Область')
+button15 = KeyboardButton('Донецкая область')
+button16 = KeyboardButton('Луганская Область')
+button17 = KeyboardButton('Черниговская Область')
+button18 = KeyboardButton('Житомирская область')
+button19 = KeyboardButton('Одесская область')
+button20 = KeyboardButton('Закарпатская область')
+button21 = KeyboardButton('Волынская область')
+button22 = KeyboardButton('Днепропетровская область')
+button23 = KeyboardButton(' Полтавская область')
+button24 = KeyboardButton('Ровенская область')
+button25 = KeyboardButton('Львовская область')
+button26 = KeyboardButton('Тернопольская область')
+button27 = KeyboardButton('Винницкая область')
+button28 = KeyboardButton('Ивано-Франковская область')
+button29 = KeyboardButton('Хмельницкая область')
+button30 = KeyboardButton('Черкасская область')
+button31 = KeyboardButton('Черновицкая область')
+button32 = KeyboardButton('Кировоградская область')
 
 keyboard11 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 keyboard11.row(button11, button12)
@@ -60,7 +60,7 @@ keyboard11.row(button27, button28)
 keyboard11.row(button29, button30)
 keyboard11.row(button31, button32)
 
-button2 = KeyboardButton('заглушка', request_contact=True)
+button2 = KeyboardButton('Отправить Информацию', request_contact=True)
 keyboard2 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).row(button2)
 button3 = KeyboardButton('Start', )
 keyboard3 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).row(button3)
@@ -68,22 +68,20 @@ keyboard3 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).ro
 
 @dp.message_handler(commands=['start'])
 async def welcome(message: types.Message):
-    await bot.send_message(message.chat.id, "заглушка ",reply_markup=keyboard1, parse_mode= "Markdown")
-    await bot.send_message(message.chat.id, 'заглушка', reply_markup=keyboard1)
+    await bot.send_message(message.chat.id, "*Активисты группы «Багратион Z» совместно с Министерством обороны Российской Федерации приветствуем Вас!* \n Этот ресурс создан для помощи нашим военным, которые принимают участие в проведении специальной военной операции на Украине. \n Наши военные нуждаются в следующей информации: \n 1.Место и время обнаружения сил противника; \n 2.Количественный состав техники противника и её тип; \n 3.Количество личного состава боевиков ВСУ; \n 4.Информация о националистически настроенных лицах. \n Военные аналитики группы «Багратион Z» получают эти сведения от Вас и немедленно передают в Штаб Специальной военной операции. \n Поможем нашим братьям, освободим от националистической власти, изменим мир к лучшему!  ",reply_markup=keyboard1, parse_mode= "Markdown")
+    await bot.send_message(message.chat.id, 'Для начала пользования ботом нажмите: «Своих не бросаем!', reply_markup=keyboard1)
 
 @dp.message_handler()
 async def kb_answer(message: types.Message):
-    if message.text == '«заглушка':
-        await message.answer('заглушка):',reply_markup=keyboard11)
+    if message.text == '«Своих не бросаем!':
+        await message.answer('В какой области был замечен противник?):',reply_markup=keyboard11)
         await Test.Q1.set()
-
-
 
 @dp.message_handler(state=Test.Q1)
 async def answer_for_question(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['Q1'] = message.text
-    await message.answer('заглушка')
+    await message.answer('Укажите город, населенный пункт, а также название улицы или какой-либо ориентир (по возможности укажите геометку')
     await Test.next()
 
 
@@ -95,7 +93,7 @@ async def answer_for_date(message: types.Message, state: FSMContext):
     answer2 = message.text
     await Test.next()
 
-    await message.answer("заглушка.", parse_mode= "Markdown")
+    await message.answer("Опишите замеченные силы противника (количество и вид техники; личный состав противника).\n В случае с *движущимися силами противника* указывайте вероятное направление движения и обращайте внимание на количество бензозаправщиков. *Пример*: Город «А», колона 4 бензовоза, 2 БМП, 3 БТР. Движутся в направлении города «Б» по улице Победы. Личный состав 30 человек. В случае со *стационарными силами противника* указывайте тип (блокпост, склад, воинская часть, казарма), адрес и ориентир. *Пример*: Город «А», в здании по адресу: ул. Победы, 1 расположена казарма. Во дворе техника: 2 БМП, 3 БТР. Личный состав 200 человек.", parse_mode= "Markdown")
 
 
 
@@ -106,7 +104,7 @@ async def answer_for_date(message: types.Message, state: FSMContext):
     answer2 = data.get("Q2")
     answer3 = message.text
     await Test.next()
-    await message.answer('заглушка', reply_markup=keyboard2)
+    await message.answer('Если у вас есть фото- или видеоматериалы сил и средств противника, Вы можете дополнительно прикрепить их к сообщению.\n Для передачи данных нашим военным аналитикам нажмите: «Отправить информацию»', reply_markup=keyboard2)
 
 @dp.message_handler(content_types=['contact'], state=Test.Q4)
 async def test(message: types.Message, state: FSMContext):
